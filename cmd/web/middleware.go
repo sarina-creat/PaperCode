@@ -63,7 +63,7 @@ func (app *application) requireAuthentication(next http.Handler) http.Handler {
 		// the chain are executed.
 		if !app.isAuthenticated(r) {
 			log.Println("stub..............")
-
+			app.session.Put(r, "requestURL", r.RequestURI)
 			http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 			return
 		}

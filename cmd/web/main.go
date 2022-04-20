@@ -26,6 +26,7 @@ const contextIsAuthenticated = contextKey("isAuthenticated")
 
 //Add a new session field to the application struct
 type application struct {
+	debugMode     bool
 	errorLog      *log.Logger
 	infoLog       *log.Logger
 	session       *sessions.Session
@@ -62,6 +63,8 @@ func main() {
 	dsn := flag.String("dsn", "web:pass@/snippetbox?parseTime=true", "MySQl data source name")
 
 	secret := flag.String("secret", "s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge", "secret key")
+
+	debug := flag.Bool("debug", false, "Enable debug mode")
 	flag.Parse()
 
 	//leveled log
@@ -86,6 +89,7 @@ func main() {
 	session.SameSite = http.SameSiteStrictMode
 
 	app := application{
+		debugMode:     *debug,
 		errorLog:      errLog,
 		infoLog:       infoLog,
 		session:       session,

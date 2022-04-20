@@ -320,6 +320,10 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	// in'.
 	app.session.Put(r, "authenticateUserID", id)
 
+	if url := app.session.PopString(r, "requestURL"); url != "" {
+		http.Redirect(w, r, url, http.StatusSeeOther)
+		return
+	}
 	// Redirect the user to the create snippet page
 	http.Redirect(w, r, "/snippet/creat", http.StatusSeeOther)
 	log.Println("Done...............")
